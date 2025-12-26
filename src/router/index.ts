@@ -1,23 +1,40 @@
-import { createRouter, createWebHistory, type RouteRecordRaw, type Router } from 'vue-router'
-import LoginView from '../views/LoginView.vue'
-import Dashboard from '../views/Dashboard.vue'
+import { createRouter, createWebHistory, type Router } from 'vue-router'
+import publicRoutes from './publicRoutes'
+import privateRoutes from './privateRoutes'
 
-const routes: RouteRecordRaw[] = [
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginView
-  },
-  {
-    path: '/',
-    name: 'dashboard',
-    component: Dashboard
-  }
-]
+const isAuthenticated = () => Boolean(localStorage.getItem('authToken'))
 
-const router: Router = createRouter({
-  history: createWebHistory(),
-  routes
-})
+export function createAppRouter(): Router {
+  const routes = [...publicRoutes, ...privateRoutes]
+  const privateRouteNames = new Set(
+    privateRoutes
+      .map((route) => route.name)
+      .filter((name): name is string => Boolean(name))
+  )
 
-export default router
+  const router = createRouter({
+    history: createWebHistory(),
+    routes
+  })
+
+  router.beforeEach((to, from, next) => {
+    const userIsAuthed = isAuthenticated()
+    const isPrivate = to.matched.some((record) =>
+      record.name ? privateRouteNames.has(record.name as string) : false
+    )
+
+    if (isPrivate && !userIsAuthed) {
+      return next({ name: 'login', query: { redirect: to.fullPath } })
+    }
+
+    if (userIsAuthed && to.name === 'login') {
+      return next({ name: 'dashboard' })
+    }
+
+    return next()
+  })
+
+  return router
+}
+
+export default createAppRouter()
