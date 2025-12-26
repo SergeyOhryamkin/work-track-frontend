@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Documentation
+*.md
+docs/
+
+# Development files
+.env
+.env.*
+.git
+.gitignore
+.vscode
+.idea
+
+# Test files
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+tests/
+coverage/
+
+# Build artifacts (source files, not needed in final image)
+dist/
+build/
+
+# Temporary files
+*.swp
+*.swo
+*~
+.DS_Store
+*.log
