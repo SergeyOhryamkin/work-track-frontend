@@ -36,9 +36,9 @@
           />
         </div>
 
-        <div v-if="errorMessage" class="error-message">
+        <div v-if="auth.error.value" class="error-message">
           <i class="pi pi-exclamation-triangle" />
-          <span>{{ errorMessage }}</span>
+          <span>{{ auth.error.value }}</span>
         </div>
 
         <Button
@@ -46,7 +46,7 @@
           label="Create account"
           icon="pi pi-check"
           class="signup-button"
-          :loading="isLoading"
+          :loading="auth.isLoading.value"
         />
         <p class="hint">Already have an account? <RouterLink to="/login">Log in</RouterLink></p>
       </form>
@@ -55,13 +55,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { reactive } from 'vue'
+import { RouterLink } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
+import { useAuth } from '../composables/useAuth'
 
-const router = useRouter()
+const auth = useAuth()
 
 const form = reactive({
   first_name: '',
@@ -70,46 +71,8 @@ const form = reactive({
   password: ''
 })
 
-const isLoading = ref(false)
-const errorMessage = ref('')
-
 const handleSignup = async () => {
-  errorMessage.value = ''
-  isLoading.value = true
-
-  try {
-    const base = import.meta.env.VITE_API_URL?.replace(/\/$/, '') || ''
-    console.log('base', base)
-    const res = await fetch(`${base}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        login: form.login,
-        password: form.password,
-        first_name: form.first_name,
-        last_name: form.last_name
-      })
-    })
-
-    if (!res.ok) {
-      const error = await res.json().catch(() => ({}))
-      throw new Error(error.error || 'Registration failed')
-    }
-
-    const data = await res.json()
-    const token = data?.token
-    const user = data?.user
-
-    if (token) localStorage.setItem('authToken', token)
-    if (user) localStorage.setItem('currentUser', JSON.stringify(user))
-
-    await router.push({ name: 'dashboard' })
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Registration failed'
-    errorMessage.value = message
-  } finally {
-    isLoading.value = false
-  }
+  await auth.register(form)
 }
 </script>
 

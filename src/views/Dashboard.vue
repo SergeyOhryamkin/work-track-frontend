@@ -20,15 +20,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useAuth } from '../composables/useAuth'
 
-const router = useRouter()
-const username = ref('User') // Placeholder
+const auth = useAuth()
 
-const handleLogout = () => {
-  // In a real app, clear auth tokens here
-  router.push('/login')
+const username = computed(() => {
+  if (auth.currentUser.value) {
+    const { first_name, last_name, login } = auth.currentUser.value
+    if (first_name && last_name) {
+      return `${first_name} ${last_name}`
+    }
+    if (first_name) return first_name
+    return login
+  }
+  return 'User'
+})
+
+const handleLogout = async () => {
+  await auth.logout()
 }
 </script>
 

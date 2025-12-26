@@ -12,8 +12,9 @@
           <label for="login">Login</label>
           <InputText 
             id="login" 
-            v-model="loginData.username" 
+            v-model="loginData.login" 
             placeholder="Enter your login"
+            required
           />
         </div>
 
@@ -28,40 +29,39 @@
           />
         </div>
 
+        <div v-if="auth.error.value" class="error-message">
+          <i class="pi pi-exclamation-triangle" />
+          <span>{{ auth.error.value }}</span>
+        </div>
+
         <Button 
           type="submit" 
           label="Login" 
           icon="pi pi-sign-in" 
           class="login-button"
-          :loading="isLoading"
+          :loading="auth.isLoading.value"
         />
       </form>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
+import { useAuth } from '../composables/useAuth'
+
+const auth = useAuth()
 
 const loginData = ref({
-  username: '',
+  login: '',
   password: ''
 })
 
-const isLoading = ref(false)
-
-const handleLogin = () => {
-  isLoading.value = true
-  
-  // Simulate login process
-  setTimeout(() => {
-    console.log('Login attempt:', loginData.value)
-    alert(`Login attempt with username: ${loginData.value.username}`)
-    isLoading.value = false
-  }, 1000)
+const handleLogin = async () => {
+  await auth.login(loginData.value)
 }
 </script>
 
@@ -135,6 +135,17 @@ const handleLogin = () => {
 .form-field label {
   font-weight: 600;
   color: #2d3748;
+  font-size: 14px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 76, 76, 0.08);
+  color: #c53030;
   font-size: 14px;
 }
 
