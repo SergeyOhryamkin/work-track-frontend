@@ -55,8 +55,7 @@ $color-dark-theme-gray: #475569; // slate 600
     $postfix: get-postfix(true, $invert) + $i;
     --palette-#{$name}#{$postfix}: #{$result};
     --palette-#{$name}#{$postfix}-rgb:
-      #{color.channel($result, 'red')}, #{color.channel($result, 'green')},
-      #{color.channel($result, 'blue')};
+      #{color.channel($result, 'red')}, #{color.channel($result, 'green')}, #{color.channel($result, 'blue')};
   }
   @for $i from 1 through 8 {
     $lightness-step: $step * $i * 1%;
@@ -64,8 +63,7 @@ $color-dark-theme-gray: #475569; // slate 600
     $postfix: get-postfix(false, $invert) + $i;
     --palette-#{$name}#{$postfix}: #{$result};
     --palette-#{$name}#{$postfix}-rgb:
-      #{color.channel($result, 'red')}, #{color.channel($result, 'green')},
-      #{color.channel($result, 'blue')};
+      #{color.channel($result, 'red')}, #{color.channel($result, 'green')}, #{color.channel($result, 'blue')};
   }
 }
 
@@ -95,11 +93,7 @@ $color-dark-theme-gray: #475569; // slate 600
    * active state of message sending button on dialog page, lights up when has something to send, text or media;
    * transparent grading for on profile feed grid items on profile page, shows when created post is processed, has error or has suspended publish date;
   */
-  --gradient-90deg: linear-gradient(
-    90deg,
-    var(--palette-primary) 0%,
-    var(--palette-secondary) 100%
-  );
+  --gradient-90deg: linear-gradient(90deg, var(--palette-primary) 0%, var(--palette-secondary) 100%);
 
   --surface-ground: var(--palette-gray-lighten-8);
   --surface-overlay: var(--palette-bg);

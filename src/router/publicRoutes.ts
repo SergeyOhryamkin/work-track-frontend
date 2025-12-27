@@ -6,13 +6,13 @@ const publicRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: PageLogin
+    component: PageLogin,
   },
   {
     path: '/signup',
     name: 'signup',
-    component: PageSignup
-  }
+    component: PageSignup,
+  },
 ]
 
 export default publicRoutes

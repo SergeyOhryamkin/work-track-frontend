@@ -3,28 +3,15 @@
     <div class="page-login__wrapper d-flex __column">
       <p class="mb-3 fw-600">Login</p>
       <FloatLabel variant="on">
-        <InputText
-          v-model="loginData.login"
-          input-id="login_label"
-          fluid
-        />
+        <InputText v-model="loginData.login" input-id="login_label" fluid />
         <label for="login_label">Enter your login</label>
       </FloatLabel>
       <p class="mb-3 mt-4 fw-600">Password</p>
       <FloatLabel variant="on">
-        <Password
-          v-model="loginData.password"
-          input-id="on_label"
-          toggle-mask
-          fluid
-          :feedback="false"
-        />
+        <Password v-model="loginData.password" input-id="on_label" toggle-mask fluid :feedback="false" />
         <label for="on_label">Enter your password</label>
       </FloatLabel>
-      <div
-        v-if="auth.error.value"
-        class="error-message"
-      >
+      <div v-if="auth.error.value" class="error-message">
         <i class="pi pi-exclamation-triangle" />
         <span>{{ auth.error.value }}</span>
       </div>
@@ -46,17 +33,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
+import FloatLabel from 'primevue/floatlabel'
 import { useAuth } from '@/composables/useAuth.ts'
-import { RouterLink } from 'vue-router'
 
 const auth = useAuth()
 
 const loginData = ref({
   login: '',
-  password: ''
+  password: '',
 })
 
 const handleLogin = async () => {
@@ -67,7 +55,10 @@ const handleLogin = async () => {
 <style scoped lang="scss">
 .page-login {
   padding: var(--sp-4);
-
+  &__wrapper {
+    width: min(520px, 100%);
+    margin: 0 auto;
+  }
   &__hint {
     text-align: center;
     font-size: 14px;

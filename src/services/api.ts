@@ -7,7 +7,7 @@ import type {
   LogoutRequest,
   RegisterData,
   TrackItem,
-  UpdateTrackItemData
+  UpdateTrackItemData,
 } from '../types/api'
 
 class ApiService {
@@ -50,7 +50,7 @@ class ApiService {
 
   private getAuthHeaders(token: string): HeadersInit {
     return {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     }
   }
 
@@ -58,14 +58,14 @@ class ApiService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     return this.request<AuthResponse>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify(credentials)
+      body: JSON.stringify(credentials),
     })
   }
 
   async register(data: RegisterData): Promise<AuthResponse> {
     return this.request<AuthResponse>('/auth/register', {
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 
@@ -73,24 +73,22 @@ class ApiService {
     return this.request<{ message: string }>('/auth/logout', {
       method: 'POST',
       headers: this.getAuthHeaders(token),
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     })
   }
 
   // Track Items endpoints
   async getTrackItems(token: string, dateRange?: DateRange): Promise<TrackItem[]> {
-    const queryString = dateRange
-      ? `?start_date=${dateRange.start_date}&end_date=${dateRange.end_date}`
-      : ''
+    const queryString = dateRange ? `?start_date=${dateRange.start_date}&end_date=${dateRange.end_date}` : ''
 
     return this.request<TrackItem[]>(`/track-items${queryString}`, {
-      headers: this.getAuthHeaders(token)
+      headers: this.getAuthHeaders(token),
     })
   }
 
   async getTrackItem(token: string, id: number): Promise<TrackItem> {
     return this.request<TrackItem>(`/track-items/${id.toString()}`, {
-      headers: this.getAuthHeaders(token)
+      headers: this.getAuthHeaders(token),
     })
   }
 
@@ -98,7 +96,7 @@ class ApiService {
     return this.request<TrackItem>('/track-items', {
       method: 'POST',
       headers: this.getAuthHeaders(token),
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 
@@ -106,14 +104,14 @@ class ApiService {
     return this.request<TrackItem>(`/track-items/${id.toString()}`, {
       method: 'PUT',
       headers: this.getAuthHeaders(token),
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
   }
 
   async deleteTrackItem(token: string, id: number): Promise<void> {
     await fetch(`${this.baseUrl}/track-items/${id.toString()}`, {
       method: 'DELETE',
-      headers: this.getAuthHeaders(token)
+      headers: this.getAuthHeaders(token),
     })
   }
 }

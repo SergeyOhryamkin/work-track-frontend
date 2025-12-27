@@ -5,8 +5,8 @@ const privateRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'dashboard',
-    component: Dashboard
-  }
+    component: Dashboard,
+  },
 ]
 
 export default privateRoutes

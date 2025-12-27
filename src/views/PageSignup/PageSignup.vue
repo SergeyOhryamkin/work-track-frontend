@@ -60,7 +60,8 @@ import { RouterLink } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
-import { useAuth } from '../../composables/useAuth.ts'
+import FloatLabel from 'primevue/floatlabel'
+import { useAuth } from '@/composables/useAuth.ts'
 
 const auth = useAuth()
 

@@ -6,7 +6,7 @@ import type { User, LoginCredentials, RegisterData } from '../types/api'
 const STORAGE_KEYS = {
   TOKEN: 'authToken',
   USER: 'currentUser',
-  SESSION_ID: 'sessionId'
+  SESSION_ID: 'sessionId',
 } as const
 
 const hasBrowserStorage = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
@@ -154,6 +154,6 @@ export function useAuth() {
     login,
     register,
     logout,
-    clearAuth
+    clearAuth,
   }
 }

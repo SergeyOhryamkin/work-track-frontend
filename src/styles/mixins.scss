@@ -50,13 +50,7 @@ $mainContainerWidth: 600px;
   }
 }
 
-@mixin add-font-face(
-  $font-family,
-  $file-path,
-  $weight: normal,
-  $style: normal,
-  $font-display: auto
-) {
+@mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
   @font-face {
     font-style: $style;
     font-weight: $weight;
