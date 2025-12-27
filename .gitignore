@@ -17,6 +17,10 @@ coverage
 tmp
 *.tmp
 
+*.md
+!README.md
+!LICENSE.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
