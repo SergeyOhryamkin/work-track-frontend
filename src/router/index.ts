@@ -7,9 +7,7 @@ const isAuthenticated = () => Boolean(localStorage.getItem('authToken'))
 export function createAppRouter(): Router {
   const routes = [...publicRoutes, ...privateRoutes]
   const privateRouteNames = new Set(
-    privateRoutes
-      .map((route) => route.name)
-      .filter((name): name is string => Boolean(name))
+    privateRoutes.map(route => route.name).filter((name): name is string => Boolean(name))
   )
 
   const router = createRouter({
@@ -19,19 +17,21 @@ export function createAppRouter(): Router {
 
   router.beforeEach((to, from, next) => {
     const userIsAuthed = isAuthenticated()
-    const isPrivate = to.matched.some((record) =>
+    const isPrivate = to.matched.some(record =>
       record.name ? privateRouteNames.has(record.name as string) : false
     )
 
     if (isPrivate && !userIsAuthed) {
-      return next({ name: 'login', query: { redirect: to.fullPath } })
+      next({ name: 'login', query: { redirect: to.fullPath } });
+      return;
     }
 
     if (userIsAuthed && to.name === 'login') {
-      return next({ name: 'dashboard' })
+      next({ name: 'dashboard' })
+      return;
     }
 
-    return next()
+    next();
   })
 
   return router

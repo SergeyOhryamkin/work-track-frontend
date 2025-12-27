@@ -1,17 +1,17 @@
 import type { RouteRecordRaw } from 'vue-router'
-import LoginView from '../views/LoginView.vue'
-import SignupView from '../views/SignupView.vue'
+import PageLogin from '@/views/PageLogin'
+import PageSignup from '@/views/PageSignup'
 
 const publicRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: PageLogin
   },
   {
     path: '/signup',
     name: 'signup',
-    component: SignupView
+    component: PageSignup
   }
 ]
 

@@ -1,0 +1,497 @@
+@use 'sass:color';
+
+$step: 5;
+
+// unchanged colors
+$color-unchanged-bg: #ffffff;
+$color-unchanged-fg: #000000;
+$color-unchanged-gray: #8d8d96;
+
+// initial-mode (Aura light)
+$color-primary: #10b981; // emerald 500
+$color-secondary: #6366f1; // indigo 500
+$color-positive: #22c55e; // green 500
+$color-negative: #f43f5e; // rose 500
+$color-bg: #f8fafc; // slate 50
+$color-fg: #0f172a; // slate 900
+$color-gray: #94a3b8; // slate 400
+
+// dark-theme (Aura dark)
+$color-dark-theme-primary: #34d399; // emerald 400
+$color-dark-theme-secondary: #a78bfa; // violet 400
+$color-dark-theme-positive: #4ade80;
+$color-dark-theme-negative: #fb7185;
+$color-dark-theme-bg: #020617; // slate 950
+$color-dark-theme-fg: #e2e8f0; // slate 200
+$color-dark-theme-gray: #475569; // slate 600
+
+@function get-postfix($dark, $invert) {
+  @if $dark == true {
+    @if $invert == true {
+      @return '-lighten-';
+    }
+    @return '-darken-';
+  }
+
+  @if $dark == false {
+    @if $invert == true {
+      @return '-darken-';
+    }
+    @return '-lighten-';
+  }
+}
+
+@mixin generate-color($name, $color-value) {
+  --palette-#{$name}: #{$color-value};
+  --palette-#{$name}-rgb:
+    #{color.channel($color-value, 'red')}, #{color.channel($color-value, 'green')},
+    #{color.channel($color-value, 'blue')};
+}
+@mixin generate-palette($name, $color-value, $invert: false) {
+  @include generate-color($name, $color-value);
+  @for $i from 1 through 8 {
+    $lightness-step: -$step * $i * 1%;
+    $result: color.adjust($color-value, $lightness: $lightness-step);
+    $postfix: get-postfix(true, $invert) + $i;
+    --palette-#{$name}#{$postfix}: #{$result};
+    --palette-#{$name}#{$postfix}-rgb:
+      #{color.channel($result, 'red')}, #{color.channel($result, 'green')},
+      #{color.channel($result, 'blue')};
+  }
+  @for $i from 1 through 8 {
+    $lightness-step: $step * $i * 1%;
+    $result: color.adjust($color-value, $lightness: $lightness-step);
+    $postfix: get-postfix(false, $invert) + $i;
+    --palette-#{$name}#{$postfix}: #{$result};
+    --palette-#{$name}#{$postfix}-rgb:
+      #{color.channel($result, 'red')}, #{color.channel($result, 'green')},
+      #{color.channel($result, 'blue')};
+  }
+}
+
+:root {
+  @include generate-palette('primary', $color-primary);
+  @include generate-palette('secondary', $color-secondary);
+  @include generate-palette('positive', $color-positive);
+  @include generate-palette('negative', $color-negative);
+  @include generate-palette('gray', $color-gray);
+  @include generate-color('bg', $color-bg);
+  @include generate-color('fg', $color-fg);
+
+  @include generate-palette('unchanged-gray', $color-unchanged-gray);
+  @include generate-color('unchanged-bg', $color-unchanged-bg);
+  @include generate-color('unchanged-fg', $color-unchanged-fg);
+
+  --palette-twitter: #1da1f2;
+  --palette-facebook: #1877f2;
+
+  /* main gradient color. usage:
+   * buttons with gradient, can be send on profile page (Follow or Create post);
+   * active state of "Like" button, can bee seen on any feed;
+   * little gradient circle on navigation bar on message icon, shows new messages, navigation bar can be seen anywhere, bottom on mobile, right on desktop;
+   * little gradient circle on messages page, shows in front of dialogs that have new messages;
+   * gradient text, can be seen when choosing event or media post type on profile page, also when choosing subscription on feed buy process;
+   * border gradient style, shows when choosing subscription on feed buy process to show which subscription is needed;
+   * active state of message sending button on dialog page, lights up when has something to send, text or media;
+   * transparent grading for on profile feed grid items on profile page, shows when created post is processed, has error or has suspended publish date;
+  */
+  --gradient-90deg: linear-gradient(
+    90deg,
+    var(--palette-primary) 0%,
+    var(--palette-secondary) 100%
+  );
+
+  --surface-ground: var(--palette-gray-lighten-8);
+  --surface-overlay: var(--palette-bg);
+  --panel-bg: var(--surface-overlay);
+  --panel-border: color-mix(in srgb, var(--palette-gray) 24%, transparent);
+  --panel-shadow: 0 45px 140px rgba(15, 23, 42, 0.18);
+  --panel-foreground: var(--palette-fg);
+  --focus-ring: color-mix(in srgb, var(--palette-secondary) 45%, transparent);
+  --glow-primary: color-mix(in srgb, var(--palette-primary) 22%, transparent);
+}
+
+:root.dark-mode {
+  @include generate-palette('primary', $color-dark-theme-primary);
+  @include generate-palette('secondary', $color-dark-theme-secondary);
+  @include generate-palette('positive', $color-dark-theme-positive);
+  @include generate-palette('negative', $color-dark-theme-negative, true);
+  @include generate-palette('gray', $color-dark-theme-gray, true);
+  @include generate-color('bg', $color-dark-theme-bg);
+  @include generate-color('fg', $color-dark-theme-fg);
+
+  --surface-ground: var(--palette-gray-darken-8);
+  --surface-overlay: var(--palette-gray-darken-4);
+  --panel-bg: color-mix(in srgb, var(--palette-gray-darken-2) 85%, rgba(2, 6, 23, 0.9));
+  --panel-border: color-mix(in srgb, var(--palette-gray-darken-1) 45%, transparent);
+  --panel-shadow: 0 30px 120px rgba(2, 6, 23, 0.65);
+  --panel-foreground: var(--palette-fg);
+  --focus-ring: color-mix(in srgb, var(--palette-primary) 55%, transparent);
+  --glow-primary: color-mix(in srgb, var(--palette-secondary) 30%, transparent);
+}
+
+//html,
+//body {
+//  height: 100%;
+//  margin: 0;
+//  padding: 0;
+//  color: var(--p-gray-900);
+//  font-family: 'Inter', 'Arial', 'Helvetica CY', 'Nimbus Sans L', sans-serif;
+//  font-size: 14px;
+//  line-height: normal;
+//  -webkit-overflow-scrolling: touch;
+//  background-color: var(--p-stone-200);
+//}
+
+:focus {
+  outline: none;
+}
+
+* {
+  font-family: 'Inter', 'Arial', 'Helvetica CY', 'Nimbus Sans L', sans-serif;
+}
+
+//#app {
+//  height: 100%;
+//}
+
+.portal-modal {
+  position: absolute;
+}
+
+.logo {
+  display: block;
+  min-height: 40px;
+  min-width: 40px;
+  object-fit: contain;
+
+  &.__small {
+    max-width: 104px;
+    max-height: 40px;
+  }
+}
+
+.app {
+  .hidden {
+    display: none;
+  }
+
+  .d-block {
+    display: block;
+  }
+
+  .d-grid {
+    display: grid;
+  }
+
+  .d-flex {
+    display: flex;
+
+    &.__wrap {
+      flex-wrap: wrap;
+    }
+  }
+
+  .__align-start {
+    align-items: start;
+  }
+
+  .__align-center {
+    align-items: center;
+  }
+
+  .__align-end {
+    align-items: end;
+  }
+
+  .__justify-center {
+    justify-content: center;
+  }
+
+  .__justify-end {
+    justify-content: end;
+  }
+
+  .__space-between {
+    justify-content: space-between;
+  }
+
+  .__space-around {
+    justify-content: space-around;
+  }
+
+  .d-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .d-flex,
+  .d-center {
+    &.__column {
+      flex-direction: column;
+    }
+
+    &.__row {
+      flex-direction: row;
+    }
+
+    &.__full-width {
+      width: 100%;
+    }
+  }
+
+  .f-grow-1 {
+    flex-grow: 1;
+  }
+
+  .f-shrink-0 {
+    flex-shrink: 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .break-word {
+    word-wrap: break-word;
+  }
+
+  .label-text {
+    margin-bottom: 2px;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--palette-gray-darken-4);
+  }
+
+  .gradient-text,
+  .sci.__gradient,
+  .msr.__gradient {
+    color: transparent;
+    background: var(--gradient-90deg);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .truncate-ellipsis,
+  .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .loading-box {
+    background: rgba(240, 236, 235, 0.8);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: $mainContainerWidth;
+    z-index: 8;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .local-loading-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.mdi {
+  line-height: 1;
+}
+
+input {
+  border: 0;
+  outline: none;
+}
+
+a,
+.link {
+  color: var(--palette-secondary);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:focus {
+    outline-style: none;
+    background-color: var(--palette-gray-lighten-8);
+  }
+
+  &.__disabled {
+    color: var(--palette-gray-lighten-4);
+    cursor: default;
+  }
+
+  &.__underline {
+    text-decoration: underline;
+  }
+}
+
+.body-1 {
+  font-size: 12px;
+}
+
+.body-2 {
+  font-size: 14px;
+}
+
+.caption {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.subtitle-1 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.subtitle-2 {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.subtitle-3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.headline-1 {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.headline {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.numbers {
+  font-size: 28px;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.normal {
+  font-weight: 400;
+}
+
+.fw-600,
+.semi-bold {
+  font-weight: 600;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.negative {
+  color: var(--palette-negative);
+}
+
+.secondary-text {
+  color: var(--palette-secondary);
+}
+
+.gray-text {
+  color: var(--palette-gray);
+}
+
+.green-text {
+  color: var(--palette-positive);
+}
+
+.gray-text-darken-4 {
+  color: var(--palette-gray-darken-4);
+}
+
+.gray-text-darken-5 {
+  color: var(--palette-gray-darken-5);
+}
+
+.text-fg {
+  color: var(--palette-fg);
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.__bottom-shadow {
+  box-shadow: inset 0 -1px 0 0 var(--palette-gray-lighten-6);
+}
+
+.top-shadow {
+  box-shadow: inset 0 1px 0 0 var(--palette-gray-lighten-6);
+}
+
+.not-interact {
+  pointer-events: none;
+}
+
+.p-absolute {
+  position: absolute;
+}
+
+.section-border {
+  border-radius: 14px;
+  border: 1px solid var(--palette-gray-lighten-7);
+}
+
+.b-radius-14 {
+  border-radius: 14px;
+}
+
+.b-shadow {
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.25);
+}
+
+.visually-hidden:not(:focus):not(:active),
+input[type='checkbox'].visually-hidden,
+input[type='file'].visually-hidden,
+input[type='radio'].visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+
+  border: 0;
+
+  clip: rect(0 0 0 0);
+}
+
+:root {
+  --safe-bottom-position: calc(var(--safe-bottom-position-nav, 0) + env(safe-area-inset-bottom));
+}

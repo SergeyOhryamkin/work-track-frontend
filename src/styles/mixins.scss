@@ -1,0 +1,82 @@
+$mainContainerWidth: 600px;
+
+@mixin mobile-only {
+  /*iPhone X*/
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+    @content;
+  }
+  /*iPhone 6, 7, & 8 */
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+    @content;
+  }
+  /*iPhone 6, 7, & 8 Plus */
+  @media only screen and (min-device-width: 414px) and (max-device-width: 736px) {
+    @content;
+  }
+
+  /*iPhone 5 & 5S in portrait & landscape*/
+  @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+    @content;
+  }
+}
+
+@mixin mobile-small-up {
+  @media screen and (min-width: 320px) {
+    @content;
+  }
+}
+
+@mixin mobile-up {
+  @media screen and (min-width: 420px) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media screen and (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin laptop-up {
+  @media screen and (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media screen and (min-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin add-font-face(
+  $font-family,
+  $file-path,
+  $weight: normal,
+  $style: normal,
+  $font-display: auto
+) {
+  @font-face {
+    font-style: $style;
+    font-weight: $weight;
+    font-family: $font-family;
+    font-display: $font-display;
+
+    src: url('#{$file-path}.eot');
+    src:
+      url('#{$file-path}.eot') format('embedded-opentype'),
+      url('#{$file-path}.woff2') format('woff2'),
+      url('#{$file-path}.woff') format('woff');
+  }
+}
+
+@mixin change-mode-transition {
+  transition: background 0.3s linear;
+}
+
+:root {
+  --modal-max-height: 744px;
+  --elongated-modal-width: 504px;
+  --elongated-modal-max-height: 976px;
+}
