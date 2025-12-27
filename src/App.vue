@@ -1,9 +1,12 @@
 <script setup>
+ import BasePage from '@/components/BasePage'
 </script>
 
 <template>
-  <router-view></router-view>
+  <base-page>
+
+    <router-view />
+  </base-page>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

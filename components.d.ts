@@ -11,9 +11,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BasePage: typeof import('./src/components/BasePage/BasePage.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    FloatLabel: typeof import('primevue/floatlabel')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

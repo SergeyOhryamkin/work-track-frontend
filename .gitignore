@@ -21,6 +21,9 @@ tmp
 !README.md
 !LICENSE.md
 
+# TypeScript build cache
+*.tsbuildinfo
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
