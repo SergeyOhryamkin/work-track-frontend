@@ -1,11 +1,17 @@
 import type { RouteRecordRaw } from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
+import PageHome from '@/views/PageHome/PageHome.vue'
+import PageProfileSettings from '@/views/PageProfileSettings'
 
 const privateRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'dashboard',
-    component: Dashboard,
+    name: 'home',
+    component: PageHome,
+  },
+  {
+    path: '/profile-settings',
+    name: 'profile-settings',
+    component: PageProfileSettings,
   },
 ]
 

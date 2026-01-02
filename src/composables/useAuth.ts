@@ -94,7 +94,7 @@ export function useAuth() {
     try {
       const response = await api.login(credentials)
       setAuthData(response.token, response.user, response.session_id)
-      await router.push({ name: 'dashboard' })
+      await router.push({ name: 'home' })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Login failed'
       error.value = message
@@ -111,7 +111,7 @@ export function useAuth() {
     try {
       const response = await api.register(data)
       setAuthData(response.token, response.user, response.session_id)
-      await router.push({ name: 'dashboard' })
+      await router.push({ name: 'home' })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Registration failed'
       error.value = message

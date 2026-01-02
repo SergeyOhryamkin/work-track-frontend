@@ -8,6 +8,8 @@ import type {
   RegisterData,
   TrackItem,
   UpdateTrackItemData,
+  UpdateUserData,
+  User,
 } from '../types/api'
 
 class ApiService {
@@ -74,6 +76,14 @@ class ApiService {
       method: 'POST',
       headers: this.getAuthHeaders(token),
       body: JSON.stringify(request),
+    })
+  }
+
+  async updateUser(token: string, data: UpdateUserData): Promise<User> {
+    return this.request<User>('/users/me', {
+      method: 'PUT',
+      headers: this.getAuthHeaders(token),
+      body: JSON.stringify(data),
     })
   }
 

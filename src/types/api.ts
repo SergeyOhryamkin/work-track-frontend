@@ -27,6 +27,12 @@ export interface RegisterData {
   last_name?: string
 }
 
+export interface UpdateUserData {
+  first_name?: string
+  last_name?: string
+  login?: string
+}
+
 export interface LogoutRequest {
   session_id: number
 }

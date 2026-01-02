@@ -11,9 +11,11 @@
     "format": "prettier --cache --write \"src/**/*.{ts,js,vue,scss}\""
   },
   "dependencies": {
+    "@material-symbols/font-400": "^0.40.2",
     "@primeuix/themes": "^2.0.2",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue/tsconfig": "^0.8.1",
+    "material-icons": "^1.13.14",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.4",
     "vite": "^7.3.0",
