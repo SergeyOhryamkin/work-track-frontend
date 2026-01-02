@@ -12,10 +12,19 @@
           </p>
         </div>
 
-        <Button label="Reset" severity="secondary" outlined :disabled="isPristine || isSaving" @click="handleReset" />
+        <Button
+          label="Reset"
+          severity="secondary"
+          outlined
+          :disabled="isPristine || isSaving"
+          @click="handleReset"
+        />
       </div>
 
-      <form class="profile-form" @submit.prevent="handleSubmit">
+      <form
+        class="profile-form"
+        @submit.prevent="handleSubmit"
+      >
         <div class="profile-form__grid">
           <div class="profile-field">
             <p class="profile-field__label">First name</p>
@@ -67,7 +76,11 @@
         </div>
 
         <footer class="profile-form__actions">
-          <Message v-if="statusMessage" :severity="statusType === 'success' ? 'success' : 'error'" :closable="false">
+          <Message
+            v-if="statusMessage"
+            :severity="statusType === 'success' ? 'success' : 'error'"
+            :closable="false"
+          >
             {{ statusMessage }}
           </Message>
 
@@ -82,13 +95,13 @@
         </footer>
       </form>
     </div>
-<Button
-  label="Logout"
-  severity="danger"
-  outlined
-  icon="pi pi-sign-out"
-  @click="auth.logout"
-/>
+    <Button
+      label="Logout"
+      severity="danger"
+      outlined
+      icon="pi pi-sign-out"
+      @click="auth.logout"
+    />
   </section>
 </template>
 
@@ -234,12 +247,6 @@ const handleSubmit = async () => {
     margin-bottom: 4px;
     color: var(--palette-gray);
   }
-
-  //&__title {
-  //  font-size: 28px;
-  //  font-weight: 700;
-  //  margin-bottom: 8px;
-  //}
 
   &__subtitle {
     color: var(--palette-gray);
