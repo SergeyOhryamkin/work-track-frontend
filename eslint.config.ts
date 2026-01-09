@@ -5,6 +5,9 @@ import pluginVue from "eslint-plugin-vue";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+  {
+    ignores: ["dist/**", "components.d.ts", "**/*.d.ts", "!src/**/*.d.ts"]
+  },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: globals.browser } },
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
@@ -27,6 +30,16 @@ export default defineConfig([
     languageOptions: { parserOptions: { parser: tseslint.parser } },
     rules: {
       "vue/singleline-html-element-content-newline": "off",
+  
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": {
+        "max": 4
+      },
+      "multiline": {
+        "max": 1
+      }
+    }]
+  
     },
   },
 ]);

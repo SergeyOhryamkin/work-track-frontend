@@ -1,4 +1,27 @@
 // API Types
+
+// Work Types Enums
+export enum WorkType {
+  SHIFT_LEAD = 'shift_lead',
+  INBOUND = 'inbound',
+  OUTBOUND = 'outbound'
+}
+
+export enum OutboundSubtype {
+  REGULAR = 'regular',
+  EXTRA = 'extra'
+}
+
+export enum InboundRule {
+  RULE_101 = '101',
+  RULE_102 = '102',
+  RULE_103 = '103',
+  RULE_104 = '104',
+  RULE_105 = '105',
+  RULE_106 = '106',
+  RULE_107 = '107'
+}
+
 export interface User {
   id: number
   login: string
@@ -11,6 +34,7 @@ export interface User {
 
 export interface AuthResponse {
   token: string
+  refresh_token: string
   user: User
   session_id: number
 }
@@ -40,7 +64,9 @@ export interface LogoutRequest {
 export interface TrackItem {
   id: number
   user_id: number
-  type: string
+  type: WorkType
+  subtype?: OutboundSubtype
+  inbound_rule?: InboundRule
   emergency_call: boolean
   holiday_call: boolean
   working_hours: number
@@ -51,7 +77,9 @@ export interface TrackItem {
 }
 
 export interface CreateTrackItemData {
-  type: string
+  type: WorkType
+  subtype?: OutboundSubtype
+  inbound_rule?: InboundRule
   emergency_call: boolean
   holiday_call: boolean
   working_hours: number
@@ -60,7 +88,9 @@ export interface CreateTrackItemData {
 }
 
 export interface UpdateTrackItemData {
-  type?: string
+  type?: WorkType
+  subtype?: OutboundSubtype
+  inbound_rule?: InboundRule
   emergency_call?: boolean
   holiday_call?: boolean
   working_hours?: number

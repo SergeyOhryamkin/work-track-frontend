@@ -39,10 +39,10 @@ const removeStorage = (key: (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]) =>
   }
 }
 
-const safeParseJson = <T>(value: string | null): T | null => {
+const safeParseJson = (value: string | null): unknown => {
   if (!value) return null
   try {
-    return JSON.parse(value) as T
+    return JSON.parse(value) as unknown
   } catch (error) {
     console.warn('Failed to parse JSON from storage', error)
     return null
@@ -57,7 +57,7 @@ const safeParseNumber = (value: string | null): number | null => {
 
 // Shared state across all instances
 const authToken = ref<string | null>(readStorage(STORAGE_KEYS.TOKEN))
-const currentUser = ref<User | null>(safeParseJson<User>(readStorage(STORAGE_KEYS.USER)))
+const currentUser = ref<User | null>(safeParseJson(readStorage(STORAGE_KEYS.USER)) as User | null)
 const sessionId = ref<number | null>(safeParseNumber(readStorage(STORAGE_KEYS.SESSION_ID)))
 
 export function useAuth() {

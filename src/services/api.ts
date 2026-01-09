@@ -12,8 +12,11 @@ import type {
   User,
 } from '../types/api'
 
+export { WorkType, OutboundSubtype, InboundRule } from '../types/api'
+
 class ApiService {
   private baseUrl: string
+  private onUnauthorized?: () => void
 
   constructor() {
     const apiUrl = import.meta.env.VITE_API_URL
@@ -21,6 +24,10 @@ class ApiService {
       throw new Error('VITE_API_URL is not defined')
     }
     this.baseUrl = apiUrl.replace(/\/$/, '')
+  }
+
+  setUnauthorizedHandler(handler: () => void) {
+    this.onUnauthorized = handler
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -42,6 +49,14 @@ class ApiService {
     })
 
     if (!response.ok) {
+      // Handle 401 Unauthorized - trigger logout
+      if (response.status === 401) {
+        if (this.onUnauthorized) {
+          this.onUnauthorized()
+        }
+        throw new Error('Unauthorized - please login again')
+      }
+
       const error = (await response.json().catch(() => ({ error: 'Request failed' }))) as ApiError
       throw new Error(error.error || `HTTP ${String(response.status)}`)
     }
