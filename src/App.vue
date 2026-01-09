@@ -1,11 +1,11 @@
 <script setup>
-import BasePage from '@/components/BasePage'
+import BaseNavigation from '@/components/BaseNavigation/index.ts'
 </script>
 
 <template>
-  <base-page>
+  <base-navigation>
     <router-view />
-  </base-page>
+  </base-navigation>
 </template>
 
 <style scoped></style>

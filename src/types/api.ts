@@ -4,12 +4,12 @@
 export enum WorkType {
   SHIFT_LEAD = 'shift_lead',
   INBOUND = 'inbound',
-  OUTBOUND = 'outbound'
+  OUTBOUND = 'outbound',
 }
 
 export enum OutboundSubtype {
   REGULAR = 'regular',
-  EXTRA = 'extra'
+  EXTRA = 'extra',
 }
 
 export enum InboundRule {
@@ -19,7 +19,7 @@ export enum InboundRule {
   RULE_104 = '104',
   RULE_105 = '105',
   RULE_106 = '106',
-  RULE_107 = '107'
+  RULE_107 = '107',
 }
 
 export interface User {

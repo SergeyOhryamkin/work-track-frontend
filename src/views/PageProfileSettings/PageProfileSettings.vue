@@ -1,7 +1,5 @@
 <template>
   <section class="page-profile-settings">
-    <base-header />
-
     <div class="page-profile-settings__wrapper">
       <div class="page-profile-settings__header">
         <div>
@@ -21,10 +19,7 @@
         />
       </div>
 
-      <form
-        class="profile-form"
-        @submit.prevent="handleSubmit"
-      >
+      <form class="profile-form" @submit.prevent="handleSubmit">
         <div class="profile-form__grid">
           <div class="profile-field">
             <p class="profile-field__label">First name</p>
@@ -76,11 +71,7 @@
         </div>
 
         <footer class="profile-form__actions">
-          <Message
-            v-if="statusMessage"
-            :severity="statusType === 'success' ? 'success' : 'error'"
-            :closable="false"
-          >
+          <Message v-if="statusMessage" :severity="statusType === 'success' ? 'success' : 'error'" :closable="false">
             {{ statusMessage }}
           </Message>
 
@@ -108,7 +99,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 
-import BaseHeader from '@/components/BaseHeader'
 import { useAuth } from '@/composables/useAuth'
 import { api } from '@/services/api'
 import InputText from 'primevue/inputtext'
@@ -204,8 +194,7 @@ const handleSubmit = async () => {
     statusMessage.value = 'Profile updated successfully'
     statusType.value = 'success'
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Failed to update profile'
-    statusMessage.value = message
+    statusMessage.value = error instanceof Error ? error.message : 'Failed to update profile'
     statusType.value = 'error'
   } finally {
     isSaving.value = false
@@ -219,7 +208,6 @@ const handleSubmit = async () => {
   flex-direction: column;
   gap: 32px;
   width: 100%;
-  min-height: 100dvh;
 
   &__wrapper {
     border-radius: 24px;

@@ -1,7 +1,5 @@
 <template>
   <section class="page-home">
-    <base-header />
-
     <div class="page-home__content">
       <div class="calendar-controls">
         <Button icon="pi pi-chevron-left" class="p-button-rounded" @click="previousDay" />
@@ -92,16 +90,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
-import BaseHeader from '@/components/BaseHeader'
+import { computed, onMounted, ref, watch } from 'vue'
 import ShiftModal from './components/ShiftModal.vue'
 import { useAuth } from '@/composables/useAuth'
-import { api, WorkType, OutboundSubtype, InboundRule } from '@/services/api'
-import type { TrackItem, CreateTrackItemData } from '@/types/api'
+import { api, InboundRule, OutboundSubtype, WorkType } from '@/services/api'
+import type { CreateTrackItemData, TrackItem } from '@/types/api'
 
 defineOptions({
   name: 'PageHome',
-  components: { BaseHeader, ShiftModal },
 })
 
 const auth = useAuth()
@@ -158,11 +154,10 @@ const fetchTrackItems = async () => {
   try {
     const dateFrom = formatDateForGet(currentDate.value)
     const dateTo = formatDateForGet(currentDate.value, 1)
-    const items = await api.getTrackItems(auth.authToken.value, {
+    trackItems.value = await api.getTrackItems(auth.authToken.value, {
       start_date: dateFrom,
       end_date: dateTo,
     })
-    trackItems.value = items
   } catch (err: unknown) {
     error.value = err instanceof Error ? err.message : 'Failed to fetch track items'
   } finally {
@@ -205,7 +200,6 @@ const outboundForm = ref({
   emergency_call: false,
   holiday_call: false,
 })
-
 
 // Modal handlers
 const openInboundModal = () => {
@@ -373,8 +367,8 @@ const getSubtypeLabel = (subtype: OutboundSubtype): string => {
   flex-direction: column;
   gap: 32px;
   width: 100%;
-  min-height: 100dvh;
-  padding-bottom: 32px;
+  //min-height: 100%;
+  //padding-bottom: 32px;
 
   &__content {
     display: flex;
@@ -480,5 +474,4 @@ const getSubtypeLabel = (subtype: OutboundSubtype): string => {
     }
   }
 }
-
 </style>

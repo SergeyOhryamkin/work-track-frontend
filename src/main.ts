@@ -19,7 +19,7 @@ api.setUnauthorizedHandler(() => {
   localStorage.removeItem('authToken')
   localStorage.removeItem('currentUser')
   localStorage.removeItem('sessionId')
-  
+
   // Redirect to login page
   void router.push({ name: 'login' })
 })

@@ -1,11 +1,7 @@
 <template>
   <header class="base-header">
     <div class="base-header__info">
-      <div
-        class="base-header__avatar"
-        :style="{ backgroundColor: avatarColor }"
-        aria-hidden="true"
-      >
+      <div class="base-header__avatar" :style="{ backgroundColor: avatarColor }" aria-hidden="true">
         <span>{{ avatarInitial }}</span>
       </div>
       <div class="base-header__text">
@@ -13,10 +9,7 @@
         <p class="base-header__username">{{ username }}</p>
       </div>
     </div>
-    <RouterLink
-      class="base-header__settings"
-      :to="{ name: 'profile-settings' }"
-    >
+    <RouterLink class="base-header__settings" :to="{ name: 'profile-settings' }">
       <base-icon name="manage_accounts" />
     </RouterLink>
   </header>

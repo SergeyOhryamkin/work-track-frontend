@@ -1,8 +1,5 @@
 <template>
-  <span
-    class="material-symbols-outlined"
-    :style="style"
-  >
+  <span class="material-symbols-outlined" :style="style">
     <slot>
       {{ name }}
     </slot>
@@ -30,8 +27,5 @@ const style = computed(() => {
     fontSize: `${props.size.toString()}px`,
   }
 })
-
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
